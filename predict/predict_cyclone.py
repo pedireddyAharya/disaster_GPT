@@ -2,16 +2,12 @@ import os
 import joblib
 import pandas as pd
 
-# Base directory of project
+# Base directory
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Correct relative paths
+# Load ONLY the model (NO encoder)
 MODEL_PATH = os.path.join(BASE_DIR, "model", "cyclone_model.pkl")
-ENCODER_PATH = os.path.join(BASE_DIR, "model", "cyclone_encoder.pkl")
-
-# Load model and encoder
 model = joblib.load(MODEL_PATH)
-encoder = joblib.load(ENCODER_PATH)
 
 def predict_cyclone(
     Sea_Surface_Temperature,
@@ -36,6 +32,6 @@ def predict_cyclone(
         "Pre_existing_Disturbance": Pre_existing_Disturbance
     }])
 
-    pred = model.predict(df)[0]
-    risk = encoder.inverse_transform([pred])[0]
+    # Model directly predicts risk
+    risk = model.predict(df)[0]
     return risk

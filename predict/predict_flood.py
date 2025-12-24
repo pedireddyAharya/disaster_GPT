@@ -2,8 +2,15 @@ import joblib
 import numpy as np
 
 # Load trained model and encoder
-model = joblib.load("C:/Users/ahary/OneDrive/Desktop/disaster_GPT/model/flood_model.pkl")
-encoder = joblib.load("C:/Users/ahary/OneDrive/Desktop/disaster_GPT/model/risk_encoder.pkl")
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "model", "flood_model.pkl")
+
+model = joblib.load(MODEL_PATH)
+ENCODER_PATH = os.path.join(BASE_DIR, "model", "risk_encoder.pkl")
+encoder = joblib.load(ENCODER_PATH)
+
 
 def predict_flood_risk(slope, twi, fa, drainage, rainfall):
     input_data = np.array([[slope, twi, fa, drainage, rainfall]])
